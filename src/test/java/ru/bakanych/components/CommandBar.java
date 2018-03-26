@@ -1,10 +1,12 @@
 package ru.bakanych.components;
 
-import org.openqa.selenium.ElementNotVisibleException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
 import ru.bakanych.model.SelectorState;
+import ru.bakanych.utils.WebElementUtils;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 
@@ -12,18 +14,20 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 public class CommandBar extends HtmlElement {
 
     @FindBy(xpath = ".//i[text()='delete']")
-    private HtmlElement deleteButton;
+    private WebElement deleteButton;
 
     @FindBy(xpath = ".//i[contains(.,'check_box')]")
-    private HtmlElement selector;
+    private WebElement selector;
 
-    public int getSelectedCount(WebDriver driver){
-        String buttonText = ((JavascriptExecutor) driver)
-                .executeScript(
-                "return $(arguments[0]).parent().clone().children().remove().end().text()", deleteButton)
-                .toString();
+    public int getSelectedCount(){
+
+        String buttonText =  WebElementUtils.ExecuteJsOnSelf(
+                deleteButton,
+                "return $(arguments[0]).parent().clone().children().remove().end().text()");
+
         return Integer.parseInt(buttonText);
     }
+
     public void delete() {
         if (!deleteButton.isDisplayed())
             throw new ElementNotVisibleException("delete button is not visible");
@@ -43,6 +47,7 @@ public class CommandBar extends HtmlElement {
                 return SelectorState.INDETERMINATE;
         }
     }
+
     public CommandBar selectAll(){
         SelectorState state = getSelectorState();
         switch (state)

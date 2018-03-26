@@ -120,34 +120,34 @@ class PaginatedListTest extends JUnitTestBase {
     @Test
     @DisplayName("no selected elements")
     void testNoSelected(){
-      assertEquals(0, app.commandBar.getSelectedCount(driver));
+      assertEquals(0, app.commandBar.getSelectedCount());
     }
 
     @Test
     @DisplayName("one selected element")
     void testOneSelected(){
       app.selectItem(0);
-      assertEquals(1, app.commandBar.getSelectedCount(driver));
+      assertEquals(1, app.commandBar.getSelectedCount());
     }
 
     @Test
     @DisplayName("all selected elements")
     void testAllSelected(){
       app.commandBar.selectAll();
-      assertEquals(10, app.commandBar.getSelectedCount(driver));
+      assertEquals(10, app.commandBar.getSelectedCount());
     }
 
     @Test
     @DisplayName("multi page selection")
     void testMultiPageSelection(){
       app.selectItem(0);
-      assertEquals(1, app.commandBar.getSelectedCount(driver));
+      assertEquals(1, app.commandBar.getSelectedCount());
       app.paginator.nextPage();
       app.selectItem(0);
       app.selectItem(1);
-      assertEquals(2, app.commandBar.getSelectedCount(driver));
+      assertEquals(2, app.commandBar.getSelectedCount());
       app.paginator.prevPage();
-      assertEquals(1, app.commandBar.getSelectedCount(driver));
+      assertEquals(1, app.commandBar.getSelectedCount());
     }
   }
 
